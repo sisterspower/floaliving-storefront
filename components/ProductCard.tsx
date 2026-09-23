@@ -1,2 +1,21 @@
-import Link from 'next/link';import type {Locale} from '@/lib/i18n';import type{Product}from '@/lib/products';
-export default function ProductCard({product,locale}:{product:Product;locale:Locale}){const base=locale==='en'?'/en/robes/':'/nl/badjassen/';const href=product.category==='robes'?base+product.handle:(locale==='en'?'/en/towels':'/nl/handdoeken');return <article className="product-card"><Link href={href}><div className="product-image"><img src={product.images[0]} alt={product.title[locale]}/></div><div className="product-name">{product.title[locale]}</div><div className="price">€{product.variants[0].price.amount}</div></Link></article>}
+import Link from 'next/link';
+import {routes,type Locale} from '@/lib/i18n';
+import type {Product} from '@/lib/products';
+
+export default function ProductCard({product,locale}:{product:Product;locale:Locale}){
+ const href=product.category==='robes'
+  ?`${routes[locale].robes}/${product.handle}`
+  :routes[locale].towels;
+
+ return (
+  <article className="product-card">
+   <Link href={href} className="no-underline text-inherit block">
+    <div className="aspect-[4/5] bg-ivory overflow-hidden">
+     <img src={product.images[0]} alt={product.title[locale]} className="h-full w-full object-cover"/>
+    </div>
+    <div className="mt-3 text-[13px] md:text-sm">{product.title[locale]}</div>
+    <div className="mt-1 text-[13px] md:text-sm text-muted">€{product.variants[0].price.amount}</div>
+   </Link>
+  </article>
+ );
+}
