@@ -1,3 +1,60 @@
-import Link from'next/link';import ProductCard from '@/components/ProductCard';import{dict,localeFrom,routes}from'@/lib/i18n';import{products}from'@/lib/products';
-export default async function Page({params}:{params:Promise<{locale:string}>}){const{locale:raw}=await params;const locale=localeFrom(raw),t=dict[locale],r=routes[locale];return <main><section className="hero"><div className="hero-copy"><span className="eyebrow">FLOALIVING · AMSTERDAM</span><h1>THE ROBE<br/>COLLECTION</h1><Link className="cta" href={r.robes}>{t.discover} →</Link></div><div className="visual"><img src="/images/hero.svg" alt="FLOALIVING striped robe editorial"/></div></section><section className="container section"><div className="split"><Link className="category link" href={r.robes}><img src="/images/category-robe.svg" alt="Robes"/><div className="label"><b>{t.robes}</b><div>{t.shopNow} →</div></div></Link><Link className="category link" href={r.towels}><img src="/images/category-towels.svg" alt="Towels"/><div className="label"><b>{t.towels}</b><div>{t.shopNow} →</div></div></Link></div></section><section className="container section"><h2 className="section-title">{t.newCollection}</h2><div className="grid">{products.filter(p=>p.category==='robes').slice(0,4).map(p=><ProductCard key={p.id} product={p} locale={locale}/>)}</div></section><section className="banner"><img src="/images/banner.svg" alt="Slow mornings editorial"/><div className="banner-copy"><h2>{t.slower}</h2><Link className="cta" href={r.world}>{t.discover} →</Link></div></section><section className="container section story-split"><div className="visual"><img src="/images/fabric.svg" alt="FLOALIVING terry fabric detail"/></div><div className="story-copy"><h2 className="section-title">{t.made}</h2><p>{t.madeCopy}</p><Link className="cta" href={r.robes}>{t.discover} →</Link></div></section><section className="container section"><h2 className="section-title">{t.stories}</h2><div className="stories">{[['/images/story-amsterdam.svg','A Morning in Amsterdam'],['/images/fabric.svg','Behind the Stripe'],['/images/story-denizli.svg','From Denizli to Amsterdam']].map(([img,title])=><article className="story-card" key={title}><img src={img} alt={title}/><h3>{title}</h3><span className="cta">Read the story →</span></article>)}</div></section><section className="newsletter"><div className="container newsletter-inner"><div><h2 className="section-title">{t.stay}</h2><p>{t.stayCopy}</p></div><input placeholder="Email address"/></div></section><Footer/></main>}
-function Footer(){return <footer className="container footer"><div className="footer-grid"><div><div className="brand">FLOALIVING</div><p className="muted">A BRIGHTER HOME FOR SLOWER DAYS.</p></div>{[['SHOP','Robes','Towels','New In'],['OUR WORLD','Our story','Journal','Materials'],['HELP','Delivery','Returns','Contact']].map(c=><div key={c[0]}><h4>{c[0]}</h4>{c.slice(1).map(x=><a href="#" key={x}>{x}</a>)}</div>)}</div></footer>}
+import Hero from '@/components/Hero';
+import CategorySplit from '@/components/CategorySplit';
+import ProductGrid from '@/components/ProductGrid';
+import EditorialBanner from '@/components/EditorialBanner';
+import MaterialStory from '@/components/MaterialStory';
+import FloaStories from '@/components/FloaStories';
+import Newsletter from '@/components/Newsletter';
+import Footer from '@/components/Footer';
+import {dict,localeFrom,routes} from '@/lib/i18n';
+import {products} from '@/lib/products';
+
+export default async function Page({params}:{params:Promise<{locale:string}>}){
+ const {locale:raw}=await params;
+ const locale=localeFrom(raw),t=dict[locale],r=routes[locale];
+ return (
+  <main>
+   <Hero
+    title={<>THE ROBE<br/>COLLECTION</>}
+    ctaLabel={t.discover}
+    ctaHref={r.robes}
+    imageSrc="/images/floa/hero-robe-collection.jpeg"
+    imageAlt="FLOALIVING striped robe editorial"
+   />
+   <CategorySplit
+    items={[
+     {href:r.robes,label:t.robes,shopNow:t.shopNow,image:'/images/floa/category-robes.jpg',alt:'Robes'},
+     {href:r.towels,label:t.towels,shopNow:t.shopNow,image:'/images/floa/category-towels.jpg',alt:'Towels'},
+    ]}
+   />
+   <ProductGrid
+    title={t.newCollection}
+    products={products.filter(p=>p.category==='robes')}
+    locale={locale}
+   />
+   <EditorialBanner
+    title={t.slower}
+    ctaLabel={t.discoverWorld}
+    ctaHref={r.world}
+    imageSrc="/images/floa/editorial-slower-mornings.jpg"
+    imageAlt="Slow mornings editorial"
+   />
+   <MaterialStory
+    title={t.made}
+    body={t.madeCopy}
+    imageSrc="/images/floa/material-wave-trim-closeup.jpg"
+    imageAlt="FLOALIVING terry fabric detail"
+   />
+   <FloaStories
+    title={t.stories}
+    stories={[
+     {image:'/images/floa/story-amsterdam.jpg',title:'A Morning in Amsterdam'},
+     {image:'/images/floa/material-wave-trim-closeup.jpg',title:'Behind the Stripe'},
+     {image:'/images/floa/story-denizli-to-amsterdam.jpg',title:'From Denizli to Amsterdam'},
+    ]}
+   />
+   <Newsletter title={t.stay} body={t.stayCopy}/>
+   <Footer/>
+  </main>
+ );
+}
