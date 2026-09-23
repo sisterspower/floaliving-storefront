@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 @layer base{
- :root{--ink:#171713;--cream:#f4f0e8;--paper:#faf8f3;--stone:#ded7ca;--muted:#6d685e;--line:#d9d3c7;--burgundy:#7d2638;--pink:#dca0ac;--navy:#1f3149;--lilac:#b9a7cf;--turq:#83b8b2}
+ :root{--ink:#171713;--cream:#f4f0e8;--paper:#faf8f3;--muted:#6d685e;--line:#d9d3c7}
  *{box-sizing:border-box}
  html{scroll-behavior:smooth}
  body{margin:0;background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}

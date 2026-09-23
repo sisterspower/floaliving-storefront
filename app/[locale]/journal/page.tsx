@@ -1,1 +1,0 @@
-export default function Page(){return <main className="container section"><p className="eyebrow">FLOALIVING</p><h1 className="section-title">JOURNAL</h1><p className="muted">Editorial stories will live here.</p></main>}

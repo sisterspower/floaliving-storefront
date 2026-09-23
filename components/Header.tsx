@@ -2,7 +2,7 @@
 import Link from 'next/link';
 import {usePathname,useRouter} from 'next/navigation';
 import {useEffect,useState} from 'react';
-import {dict,routes,switchLocale,type Locale} from '@/lib/i18n';
+import {dict,locales,routes,switchLocale,type Locale} from '@/lib/i18n';
 import {useCart} from './CartContext';
 import AnnouncementBar from './AnnouncementBar';
 
@@ -28,8 +28,8 @@ export default function Header({locale}:{locale:Locale}){
      <Link className="link justify-self-center whitespace-nowrap text-[22px] font-semibold tracking-[0.16em]" href={r.home}>FLOALIVING</Link>
      <div className="flex items-center justify-self-end gap-4 text-xs tracking-[0.08em] whitespace-nowrap">
       <button className="hidden md:inline" onClick={()=>setSearch(true)}>{t.search}</button>
-      <button className="hidden md:inline" onClick={()=>swap(locale==='en'?'nl':'en')}>{locale.toUpperCase()}</button>
-      <button className="hidden md:inline">{t.account}</button>
+      <LocaleSwitcher locale={locale} onChange={swap} className="hidden md:flex"/>
+      <Link className="link hidden md:inline" href={r.account}>{t.account}</Link>
       <button onClick={()=>cart.setOpen(true)}>{t.bag} ({cart.count})</button>
      </div>
     </div>
@@ -40,7 +40,8 @@ export default function Header({locale}:{locale:Locale}){
       <div className="drawer-head"><b>FLOALIVING</b><button onClick={()=>setMenu(false)}>✕</button></div>
       {navLinks.map(([href,label])=><Link key={href} className="link" style={{display:'block',fontSize:28,margin:'22px 0'}} href={href} onClick={()=>setMenu(false)}>{label}</Link>)}
       <Link className="link" style={{display:'block',fontSize:28,margin:'22px 0'}} href={r.journal} onClick={()=>setMenu(false)}>JOURNAL</Link>
-      <button className="mt-6 text-xs tracking-[0.08em]" onClick={()=>{swap(locale==='en'?'nl':'en');setMenu(false)}}>{locale==='en'?'Switch to NL':'Switch to EN'}</button>
+      <Link className="link" style={{display:'block',fontSize:28,margin:'22px 0'}} href={r.account} onClick={()=>setMenu(false)}>{t.account}</Link>
+      <LocaleSwitcher locale={locale} onChange={to=>{swap(to);setMenu(false)}} className="mt-6 flex"/>
      </aside>
     </div>
    )}
@@ -55,6 +56,19 @@ export default function Header({locale}:{locale:Locale}){
    )}
    <CartDrawer locale={locale}/>
   </>
+ );
+}
+
+function LocaleSwitcher({locale,onChange,className}:{locale:Locale;onChange:(to:Locale)=>void;className?:string}){
+ return (
+  <div className={`items-center gap-2 text-xs tracking-[0.08em] ${className||''}`}>
+   {locales.map((l,i)=>
+    <span key={l} className="flex items-center gap-2">
+     {i>0&&<span className="text-muted">/</span>}
+     <button onClick={()=>onChange(l)} className={l===locale?'font-semibold':'text-muted'}>{l.toUpperCase()}</button>
+    </span>
+   )}
+  </div>
  );
 }
 

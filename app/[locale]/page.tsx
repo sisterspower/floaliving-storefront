@@ -4,7 +4,6 @@ import ProductGrid from '@/components/ProductGrid';
 import EditorialBanner from '@/components/EditorialBanner';
 import MaterialStory from '@/components/MaterialStory';
 import FloaStories from '@/components/FloaStories';
-import Newsletter from '@/components/Newsletter';
 import Footer from '@/components/Footer';
 import {dict,localeFrom,routes} from '@/lib/i18n';
 import {products} from '@/lib/products';
@@ -53,8 +52,7 @@ export default async function Page({params}:{params:Promise<{locale:string}>}){
      {image:'/images/floa/story-denizli-to-amsterdam.jpg',title:'From Denizli to Amsterdam'},
     ]}
    />
-   <Newsletter title={t.stay} body={t.stayCopy}/>
-   <Footer/>
+   <Footer locale={locale}/>
   </main>
  );
 }

@@ -1,2 +1,0 @@
-import {notFound}from'next/navigation';import ProductDetail from '@/components/ProductDetail';import{localeFrom}from'@/lib/i18n';import{getProduct}from'@/lib/products';
-export default async function Page({params}:{params:Promise<{locale:string;slug:string}>}){const{locale:raw,slug}=await params;const p=getProduct(slug);if(!p||p.category!=='robes')notFound();return <ProductDetail product={p} locale={localeFrom(raw)}/>}
