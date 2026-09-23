@@ -14,7 +14,7 @@ function secret(){
  return new TextEncoder().encode(s);
 }
 
-export type Session={provider:'apple';sub:string;email?:string};
+export type Session={provider:'apple'|'google';sub:string;email?:string;name?:string};
 
 export async function createSessionCookie(session:Session){
  const token=await new SignJWT(session)

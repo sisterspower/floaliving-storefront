@@ -47,7 +47,7 @@ export default function AccountPage({locale,session,authError}:{locale:Locale;se
       <div className="mt-4 flex flex-col gap-3">
        <button onClick={notReady} className="h-12 border border-line text-xs tracking-[0.05em]">{t.continueWithFacebook}</button>
        <button onClick={notReady} className="h-12 border border-line text-xs tracking-[0.05em]">{t.continueWithApple}</button>
-       <button onClick={notReady} className="h-12 border border-line text-xs tracking-[0.05em]">{t.continueWithGoogle}</button>
+       <a href={`/api/auth/google?locale=${locale}`} className="flex h-12 items-center justify-center border border-line text-xs tracking-[0.05em] no-underline text-inherit">{t.continueWithGoogle}</a>
       </div>
      </div>
 
